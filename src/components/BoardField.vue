@@ -1,10 +1,10 @@
 <template>
     <div class="field" :class="{visible: visible}" @click="revealField" @contextmenu.prevent="flagField">
         <template v-if="visible">
-            <img v-if="content==='bomb'" src="../assets/bomb.svg"/>
+            <img v-if="content==='bomb'" src="../assets/bomb.svg" alt=""/>
             <span v-else>{{displayContent}}</span>
         </template>
-        <img class="icon-small" v-else-if="flagged" src="../assets/flag.svg">
+        <img class="icon-small" v-else-if="flagged" src="../assets/flag.svg" alt="">
     </div>
 </template>
 
@@ -41,35 +41,47 @@
     }
 </script>
 
-<style scoped>
-    .field{
-        width: 50px;
-        height: 50px;
-        border: 2px solid rgba(255,255,255,0.1);
-        color: white;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        font-size: 24px;
-        user-select: none;
+<style lang="scss" scoped>
+    .field {
+      width: 50px;
+      height: 50px;
+      border: 2px solid rgba(255, 255, 255, 0.1);
+      border-radius: 4px;
+      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 24px;
+      user-select: none;
+      margin: 5px;
+      transition: all ease 150ms;
+
+    &.visible {
+      background-color: #232f4b;
+      border-color: rgba(0, 0, 0, 0.08) rgba(255, 255, 255, 0.08) rgba(255, 255, 255, 0.08) rgba(0, 0, 0, 0.08);
+      box-shadow: inset 3px 3px 5px #232f4b, inset -0px -0px 5px #2f3f65;
     }
-    .field.visible{
-        background-color: #1f324e;
-        border-color: rgba(0,0,0,0.2) rgba(255,255,255,0.2) rgba(255,255,255,0.2) rgba(0,0,0,0.2)
+
+    &:not(.visible) {
+      /*border: 2px solid;*/
+      border-color: rgba(255, 255, 255, 0.08) rgba(0, 0, 0, 0.08) rgba(0, 0, 0, 0.08) rgba(255, 255, 255, 0.08);
+      box-shadow: 3px 3px 10px #232f4b, -3px -3px 10px #2f3f65;
+
+
     }
-    .field:not(.visible){
-        border: 2px solid;
-        border-color: rgba(255,255,255,0.2) rgba(0,0,0,0.2) rgba(0,0,0,0.2) rgba(255,255,255,0.2)
+
+    &:not(.visible):active {
+      background-color: #203653
     }
-    .field:not(.visible):active{
-        background-color: #203653
+
     }
-    img{
-        width: 40px;
-        height:40px;
-    }
-    img.icon-small{
+    img {
+      width: 40px;
+      height: 40px;
+
+      &.icon-small {
         width: 25px;
         height: 25px;
+      }
     }
 </style>
