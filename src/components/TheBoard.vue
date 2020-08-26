@@ -94,7 +94,6 @@
                this.board[row][col].flagged = !this.board[row][col].flagged;
             },
             revealField (row, col) {
-                console.log(`ROW: ${row}, COL: ${col}`);
                 if(this.playing && !this.board[row][col].visible){
                     this.board[row][col].visible = true;
                     if(this.board[row][col].content==='bomb') {
@@ -140,12 +139,15 @@
         flex-flow: row nowrap;
     }
     .board{
-        width: fit-content;
-        padding: 30px;
-        border-radius: 25px;
-        box-shadow:  20px 20px 60px #222e48, -20px -20px 60px #314269;
-        /*border: 1.5px solid;*/
-        /*border-color: rgba(255,255,255,0.03) rgba(0,0,0,0.08) rgba(0,0,0,0.08) rgba(255,255,255,0.03);*/
+      //width: fit-content;
+      padding: 30px;
+      border-radius: 25px;
+      box-sizing: border-box;
+      //box-shadow:  20px 20px 40px #202b43, -20px -20px 40px #314269;
+      box-shadow: 21px 21px 41px #192237, -21px -21px 41px #394c79;
+      border: 1.5px solid;
+      //border-color: rgba(255,255,255,0.03) rgba(0,0,0,0.08) rgba(0,0,0,0.08) rgba(255, 255, 255, 0.03);
+      background: linear-gradient(135deg, #314269, #222e48);
         &.lost {
           pointer-events: none;
         }

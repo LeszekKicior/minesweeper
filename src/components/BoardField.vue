@@ -55,25 +55,23 @@
       user-select: none;
       margin: 5px;
       transition: all ease 150ms;
+      &.visible {
+        background-color: darken(#293758,2.5%);
+        border-color: rgba(0, 0, 0, 0.08) rgba(255, 255, 255, 0.08) rgba(255, 255, 255, 0.08) rgba(0, 0, 0, 0.08);
+        box-shadow: inset 3px 3px 5px #14203B, inset -0px -0px 5px #384460;
+      }
 
-    &.visible {
-      background-color: #232f4b;
-      border-color: rgba(0, 0, 0, 0.08) rgba(255, 255, 255, 0.08) rgba(255, 255, 255, 0.08) rgba(0, 0, 0, 0.08);
-      box-shadow: inset 3px 3px 5px #232f4b, inset -0px -0px 5px #2f3f65;
-    }
-
-    &:not(.visible) {
-      /*border: 2px solid;*/
-      border-color: rgba(255, 255, 255, 0.08) rgba(0, 0, 0, 0.08) rgba(0, 0, 0, 0.08) rgba(255, 255, 255, 0.08);
-      box-shadow: 3px 3px 10px #232f4b, -3px -3px 10px #2f3f65;
+      &:not(.visible) {
+        /*border: 2px solid;*/
+        border-color: rgba(255, 255, 255, 0.08) rgba(0, 0, 0, 0.08) rgba(0, 0, 0, 0.08) rgba(255, 255, 255, 0.08);
+        box-shadow: 3px 3px 10px #14203B, -3px -3px 10px #384460;
 
 
-    }
+      }
 
-    &:not(.visible):active {
-      background-color: #203653
-    }
-
+      &:not(.visible):active {
+        background-color: #232f4b;
+      }
     }
     img {
       width: 40px;
