@@ -9,7 +9,7 @@
             </div>
         </div>
 
-        <div class="board" :class="{lost: !playing}">
+      <div class="board" :class="{lost: !playing}">
             <div class="row" v-for="(row, i) in board" :key="i">
                 <BoardField v-for="(field,j) in row" :key="j" :content="field.content" :flagged="field.flagged" :visible="field.visible" @reveal="revealField(i, j)" @flag="flagField(i,j)"/>
             </div>
@@ -32,6 +32,13 @@
                 width: 0,
                 playing: false
             }
+        },
+        props: {
+          color: {
+            type: String,
+            required: false,
+            default: ''
+          }
         },
         methods: {
             generateBoard (height, width, bombNum) {
@@ -111,11 +118,14 @@
             }
         },
         mounted () {
-            this.generateBoard(10,10, 10)
+            this.generateBoard(10,10, 0)
+            // this.generateBoard(10,10, 10)
         },
         computed: {
             success () {
+                // Check if all remaining unrevealed fields contain bombs
                 return this.board.flat(2).filter(field => !field.visible).every(field => field.content==='bomb')
+                // return false
             },
             modalContent () {
                 return this.success ? "WYGRAŁEŚ" : "PRZEGRAŁEŚ"
@@ -124,7 +134,7 @@
     }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
     .row{
         display: flex;
         flex-flow: row nowrap;
@@ -133,10 +143,12 @@
         width: fit-content;
         padding: 30px;
         border-radius: 25px;
-        box-shadow:  20px 20px 60px #232f4b, -20px -20px 60px #2f3f65;
-    }
-    .board.lost{
-        pointer-events: none;
+        box-shadow:  20px 20px 60px #222e48, -20px -20px 60px #314269;
+        /*border: 1.5px solid;*/
+        /*border-color: rgba(255,255,255,0.03) rgba(0,0,0,0.08) rgba(0,0,0,0.08) rgba(255,255,255,0.03);*/
+        &.lost {
+          pointer-events: none;
+        }
     }
     .container{
         width: 100%;
@@ -159,25 +171,25 @@
         outline: none;
         border: 1px solid rgba(255,255,255,0.2);
         transition: 150ms all ease;
-    }
-    .btn:hover{
+      &:hover {
         background-color: #213856;
-    }
-    .btn:active{
+      }
+      &:active {
         background-color: #203653;
+      }
     }
 
     .modal {
-        width: 100%;
-        height: 100%;
-        position: absolute;
-        background-color: rgba(0,0,0,0.4);
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        margin-top: -60px;
-    }
-    .modal .content {
+      width: 100%;
+      height: 100%;
+      position: fixed;
+      background-color: rgba(0, 0, 0, 0.4);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-top: -60px;
+
+      & .content {
         padding: 40px 60px;
         background-color: #293758;
         border-radius: 30px;
@@ -185,5 +197,6 @@
         font-size: 24px;
         display: flex;
         flex-flow: column nowrap;
+      }
     }
 </style>
