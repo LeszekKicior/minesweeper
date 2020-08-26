@@ -15,7 +15,7 @@
             </div>
         </div>
 
-        <button class="btn" @click="debugSuccess">WYGRANKO</button>
+        <button class="btn" @click="debugSuccess">DEBUG</button>
 
     </div>
 </template>
@@ -118,7 +118,7 @@
                 return this.board.flat(2).filter(field => !field.visible).every(field => field.content==='bomb')
             },
             modalContent () {
-                return this.success ? "WYGRANKO" : "PRZEGRANKO"
+                return this.success ? "WYGRAŁEŚ" : "PRZEGRAŁEŚ"
             }
         }
     }
