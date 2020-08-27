@@ -10,7 +10,7 @@
 
 <script>
     export default {
-        name: "BoardField",
+        name: "MineSweeperBoardField",
         props: {
             content: {
                 type: String,
