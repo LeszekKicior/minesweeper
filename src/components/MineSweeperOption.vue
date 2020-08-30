@@ -34,7 +34,7 @@ export default {
   methods: {
     playOption () {
       this.$emit('play')
-    }
+    },
     updateTime () {
       this.optionTime = localStorage[this.option.name]
       this.$forceUpdate()
