@@ -25,10 +25,7 @@ export default {
   computed: {
     bestTime () {
       if(this.optionTime){
-        const time = this.calcTime(this.optionTime)
-        const minutes = time.minutes<10 ? `0${time.minutes}` : time.minutes
-        const seconds = time.seconds<10 ? `0${time.seconds}` : time.seconds
-        return `${minutes}:${seconds}`
+        return this.$options.filters.parseTime(this.optionTime)
       } else {
         return 'No record yet!'
       }
@@ -37,13 +34,7 @@ export default {
   methods: {
     playOption () {
       this.$emit('play')
-    },
-    calcTime: function(time){
-      return {
-        minutes: Math.floor((time % (1000 * 60 * 60)) / (1000 * 60)),
-        seconds: Math.floor((time % (1000 * 60)) / 1000)
-      }
-    },
+    }
     updateTime () {
       this.optionTime = localStorage[this.option.name]
       this.$forceUpdate()

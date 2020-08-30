@@ -10,6 +10,7 @@
       <BaseModal v-if="display.wonModal">
         Yay!
         <div style="font-size: 16px;">You're a star!</div>
+        <span>Your time: {{this.timer.duration|parseTime}}</span>
         <BaseButton @click="returnToMenu" style="margin-top: 15px;">Return to menu</BaseButton>
       </BaseModal>
 
