@@ -66,7 +66,7 @@ export default {
     .name{
       font-weight: bold;
       margin-right: 30px;
-      width: 160px;
+      min-width: 160px;
       text-align: left;
     }
     .play-button{
