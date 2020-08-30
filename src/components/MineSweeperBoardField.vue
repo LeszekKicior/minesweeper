@@ -53,8 +53,10 @@
       align-items: center;
       font-size: 24px;
       user-select: none;
-      margin: 5px;
+      //margin: 5px;
       transition: all ease 150ms;
+      position: relative;
+      overflow: hidden;
       &.visible {
         background-color: darken(#293758,2.5%);
         border-color: rgba(0, 0, 0, 0.08) rgba(255, 255, 255, 0.08) rgba(255, 255, 255, 0.08) rgba(0, 0, 0, 0.08);

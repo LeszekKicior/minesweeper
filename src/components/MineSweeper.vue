@@ -21,10 +21,14 @@
 </template>
 
 <script>
-    import BoardField from "@/components/BoardField";
+import MineSweeperBoard from "@/components/MineSweeperBoard";
+import BaseButton from "@/components/generic/BaseButton";
+import MineSweeperTimer from "@/components/MineSweeperTimer";
+// import BaseButton from "@/components/generic/BaseButton";
     export default {
-        name: "TheBoard",
-        components: {BoardField},
+        name: "MineSweeper",
+        // components: {BaseButton, MineSweeperBoard},
+        components: {MineSweeperTimer, BaseButton, MineSweeperBoard},
         data () {
             return {
                 height: 10,
@@ -75,24 +79,7 @@
 </script>
 
 <style lang="scss" scoped>
-    .row{
-        display: flex;
-        flex-flow: row nowrap;
-    }
-    .board{
-      //width: fit-content;
-      padding: 30px;
-      border-radius: 25px;
-      box-sizing: border-box;
-      //box-shadow:  20px 20px 40px #202b43, -20px -20px 40px #314269;
-      box-shadow: 21px 21px 41px #192237, -21px -21px 41px #394c79;
-      border: 1.5px solid;
-      //border-color: rgba(255,255,255,0.03) rgba(0,0,0,0.08) rgba(0,0,0,0.08) rgba(255, 255, 255, 0.03);
-      background: linear-gradient(135deg, #314269, #222e48);
-        &.lost {
-          pointer-events: none;
-        }
-    }
+    $size: 800px;
     .container{
         width: 100%;
         height: 100%;
@@ -115,26 +102,7 @@
             background: linear-gradient(135deg, #314269, #222e48);
           }
     }
-    .btn{
-        padding: 15px 30px;
-        margin-top: 30px;
-        color: white;
-        background-color: #293758;
-        border-radius: 25px;
-        box-shadow:  10px 10px 30px #232f4b, -10px -10px 30px #2f3f65;
-        cursor: pointer;
-        outline: none;
-        border: 1px solid rgba(255,255,255,0.2);
-        transition: 150ms all ease;
-      &:hover {
-        background-color: #213856;
-      }
-      &:active {
-        background-color: #203653;
-      }
-    }
-
-    .modal {
+    .modal-overlay {
       width: 100%;
       height: 100%;
       position: fixed;
