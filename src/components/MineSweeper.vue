@@ -35,6 +35,7 @@
                 :key="option.name"/>
           </div>
         </div>
+      <div class="note">Leszek Kicior, 2020</div>
     </div>
 </template>
 
@@ -194,5 +195,13 @@ import MineSweeperOption from "@/components/MineSweeperOption";
             border-color: rgba(255, 255, 255, 0.03) rgba(0, 0, 0, 0.08) rgba(0, 0, 0, 0.08) rgba(255, 255, 255, 0.03);
             background: linear-gradient(135deg, #314269, #222e48);
           }
+    }
+    .note{
+      font-size: 12px;
+      opacity: 0.4;
+      margin-top: auto;
+      margin-left: auto;
+      text-align: right;
+      padding: 10px;
     }
 </style>
