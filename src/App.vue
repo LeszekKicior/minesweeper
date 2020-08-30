@@ -1,16 +1,16 @@
 <template>
   <div id="app">
-    <TheBoard/>
+    <MineSweeper/>
   </div>
 </template>
 
 <script>
-import TheBoard from "@/components/TheBoard";
+import MineSweeper from "@/components/MineSweeper";
 
 export default {
   name: 'App',
   components: {
-    TheBoard
+    MineSweeper
   }
 }
 </script>
