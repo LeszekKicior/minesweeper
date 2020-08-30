@@ -3,14 +3,14 @@
 
       <BaseModal v-if="display.lostModal">
         :(
-        <div style="font-size: 16px;">Nie tym razem!</div>
-        <BaseButton @click="returnToMenu">Wróć do menu</BaseButton>
+        <div style="font-size: 16px;">Not this time!</div>
+        <BaseButton @click="returnToMenu" style="margin-top: 15px;">Return to menu</BaseButton>
       </BaseModal>
 
       <BaseModal v-if="display.wonModal">
         Yay!
-        <div style="font-size: 16px;">JESTEŚ GWIAZDĄ</div>
-        <BaseButton @click="returnToMenu">Wróć do menu</BaseButton>
+        <div style="font-size: 16px;">You're a star!</div>
+        <BaseButton @click="returnToMenu" style="margin-top: 15px;">Return to menu</BaseButton>
       </BaseModal>
 
       <MineSweeperTimer :timer="timer.duration" :style="{opacity: playing?1:0}"/>
@@ -30,11 +30,10 @@
                 :option="option"
                 @play="startGame(option)"
                 v-for="option in options"
+                :ref="'option-'+option.name"
                 :key="option.name"/>
           </div>
         </div>
-
-
     </div>
 </template>
 
@@ -55,7 +54,6 @@ import MineSweeperOption from "@/components/MineSweeperOption";
                 width: 0,
                 bombNum: 0,
                 playing: false,
-                // state: 'SETUP',
                 timer: {
                   interval: '',
                   duration: 0,
@@ -93,21 +91,32 @@ import MineSweeperOption from "@/components/MineSweeperOption";
             this.display.menu = false
             this.display.board = true
           },
-          dropConfetti() {
+
+          dropConfetti(time) {
             this.$confetti.start();
-            setTimeout(()=>this.$confetti.stop(), 2500)
+            setTimeout(()=>this.$confetti.stop(), time)
           },
+
           stopGame(payload) {
             this.playing = false;
             this.stopTimer()
             if(payload.state === 'won') {
-              this.dropConfetti();
-              localStorage[this.optionPlayed] = this.timer.duration
+              this.dropConfetti(2500);
+              this.updateHighScore(this.optionPlayed, this.timer.duration)
               setTimeout(()=>this.display.wonModal = true, 2500)
             } else {
               setTimeout(()=>this.display.lostModal = true, 1000)
             }
           },
+
+          updateHighScore(option, timer) {
+            const currentHighScore = parseInt(localStorage[option])
+            if(!currentHighScore || currentHighScore > timer){
+              localStorage[option] = timer
+              this.$refs['option-'+option][0].updateTime()
+            }
+          },
+
           startTimer() {
             this.timer.start = new Date().getTime();
             this.updateTimer(this.timer.start);
@@ -116,6 +125,7 @@ import MineSweeperOption from "@/components/MineSweeperOption";
               this.updateTimer(this.timer.start);
             }, 1000);
           },
+
           updateTimer(start, end) {
             if(end) {
               this.timer.duration = end - start
@@ -124,11 +134,13 @@ import MineSweeperOption from "@/components/MineSweeperOption";
               this.timer.duration = now - start
             }
           },
+
           stopTimer() {
             this.timer.end = new Date().getTime();
             this.updateTimer(this.timer.start,this.timer.end);
             clearInterval(this.timer.interval)
           },
+
           resetTimer() {
             this.stopTimer()
             this.timer = {
@@ -138,6 +150,7 @@ import MineSweeperOption from "@/components/MineSweeperOption";
                 end: 0
             }
           },
+
           returnToMenu() {
             this.resetTimer()
             this.playing = false;

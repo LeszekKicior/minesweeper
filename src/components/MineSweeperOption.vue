@@ -17,10 +17,15 @@ export default {
       required: true
     }
   },
+  data () {
+    return {
+      optionTime: 0
+    }
+  },
   computed: {
     bestTime () {
-      if(localStorage[this.option.name]){
-        const time = this.calcTime(localStorage[this.option.name])
+      if(this.optionTime){
+        const time = this.calcTime(this.optionTime)
         const minutes = time.minutes<10 ? `0${time.minutes}` : time.minutes
         const seconds = time.seconds<10 ? `0${time.seconds}` : time.seconds
         return `${minutes}:${seconds}`
@@ -38,7 +43,14 @@ export default {
         minutes: Math.floor((time % (1000 * 60 * 60)) / (1000 * 60)),
         seconds: Math.floor((time % (1000 * 60)) / 1000)
       }
+    },
+    updateTime () {
+      this.optionTime = localStorage[this.option.name]
+      this.$forceUpdate()
     }
+  },
+  mounted () {
+    this.updateTime()
   }
 }
 </script>
