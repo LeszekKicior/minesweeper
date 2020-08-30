@@ -1,11 +1,22 @@
 <template>
-    <div class="field" :class="{visible: visible}" @click="revealField" @contextmenu.prevent="flagField">
+  <transition appear name="fade">
+    <div class="field" :class="{visible, playing}" @click="revealField" @click.right.prevent="flagField">
         <template v-if="visible">
-            <img v-if="content==='bomb'" src="../assets/bomb.svg" alt=""/>
-            <span v-else>{{displayContent}}</span>
+            <template v-if="content==='bombClicked'">
+              <transition name="bomb">
+                <img class="bomb-clicked" src="../assets/bomb.svg" alt=""/>
+              </transition>
+            </template>
+            <img v-else-if="content==='bomb'" src="../assets/bomb.svg" alt=""/>
+            <span v-else :style="contentStyle">{{content}}</span>
         </template>
-        <img class="icon-small" v-else-if="flagged" src="../assets/flag.svg" alt="">
+        <template v-else>
+          <transition name="fade" duration="80">
+            <img class="icon-small" v-if="flagged" src="../assets/flag.svg" alt="">
+          </transition>
+        </template>
     </div>
+  </transition>
 </template>
 
 <script>
@@ -13,7 +24,7 @@
         name: "MineSweeperBoardField",
         props: {
             content: {
-                type: String,
+                type: [String, Number],
                 required: true
             },
             visible: {
@@ -21,6 +32,10 @@
                 default: false
             },
             flagged: {
+                type: Boolean,
+                default: false
+            },
+            playing: {
                 type: Boolean,
                 default: false
             }
@@ -34,8 +49,9 @@
             }
         },
         computed: {
-            displayContent () {
-                return this.content === '0' ? '' : this.content;
+            contentStyle () {
+                const opacity = this.content === '0' ? 0 : 1;
+                return {opacity}
             }
         }
     }
@@ -43,8 +59,6 @@
 
 <style lang="scss" scoped>
     .field {
-      width: 50px;
-      height: 50px;
       border: 2px solid rgba(255, 255, 255, 0.1);
       border-radius: 4px;
       color: white;
@@ -60,19 +74,42 @@
       &.visible {
         background-color: darken(#293758,2.5%);
         border-color: rgba(0, 0, 0, 0.08) rgba(255, 255, 255, 0.08) rgba(255, 255, 255, 0.08) rgba(0, 0, 0, 0.08);
-        box-shadow: inset 3px 3px 5px #14203B, inset -0px -0px 5px #384460;
+        &::after{
+          opacity: 1;
+        }
+        //box-shadow: inset 3px 3px 5px #14203B, inset -0px -0px 5px #384460;
       }
-
       &:not(.visible) {
-        /*border: 2px solid;*/
+        //border: 2px solid;
         border-color: rgba(255, 255, 255, 0.08) rgba(0, 0, 0, 0.08) rgba(0, 0, 0, 0.08) rgba(255, 255, 255, 0.08);
-        box-shadow: 3px 3px 10px #14203B, -3px -3px 10px #384460;
+        //box-shadow: 3px 3px 10px #14203B, -3px -3px 10px #384460;
+        cursor: pointer;
 
-
+        &::before{
+          opacity: 1;
+        }
       }
-
       &:not(.visible):active {
         background-color: #232f4b;
+      }
+      &::after, &::before {
+        content: '';
+        position: absolute;
+        z-index: 9;
+        width: 100%;
+        height: 100%;
+        opacity: 0;
+        border-radius: 5px;
+        transition: opacity 0.3s ease-in-out;
+      }
+      &::after{
+        box-shadow: inset 3px 3px 5px #14203B, inset -0px -0px 5px #384460;
+      }
+      &::before{
+        box-shadow: 3px 3px 10px #14203B, -3px -3px 10px #384460;
+      }
+      &:not(.playing){
+        pointer-events: none;
       }
     }
     img {
@@ -80,8 +117,8 @@
       height: 40px;
 
       &.icon-small {
-        width: 25px;
-        height: 25px;
+        max-width: 25px;
+        max-height: 25px;
       }
     }
 </style>

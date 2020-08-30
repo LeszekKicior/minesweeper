@@ -1,21 +1,33 @@
 <template>
     <div class="container">
 
-<!--        <div class="modal-overlay" v-if="success || !playing">-->
-<!--            <div class="modal-content">-->
-<!--                {{modalContent}}-->
-<!--                <div v-if="success" style="font-size: 16px;">JESTEŚ GWIAZDĄ</div>-->
-<!--                <button class="btn" @click="generateBoard(10,10,10)">ZAGRAJ JESZCZE RAZ</button>-->
-<!--            </div>-->
-<!--        </div>-->
-
-      <div class="board" :class="{lost: !playing}">
-            <div class="row" v-for="(row, i) in board" :key="i">
-                <BoardField v-for="(field,j) in row" :key="j" :content="field.content" :flagged="field.flagged" :visible="field.visible" @reveal="revealField(i, j)" @flag="flagField(i,j)"/>
+        <div class="modal-overlay" v-if="display.modal">
+            <div class="modal-content">
+                {{modalContent}}
+                <div v-if="success" style="font-size: 16px;">JESTEŚ GWIAZDĄ</div>
+                <button class="btn" @click="generateBoard(10,10,10)">ZAGRAJ JESZCZE RAZ</button>
             </div>
         </div>
+      <MineSweeperTimer :timer="timer.duration"/>
+      <div class="content">
+          <MineSweeperBoard v-show="display.board"
+                            :height="height"
+                            :width="width"
+                            :bomb-num="bombNum"
+                            :playing="playing"
+                            @startTimer="startTimer"
+                            @stopGame="stopGame"
+                            key="board"/>
+          <div class="menu" v-show="display.menu">
+            <h1>Minesweeper</h1>
+            <BaseButton @click="startGame(5, 5, 5)">Easy</BaseButton>
+            <br>
+            <BaseButton @click="startGame(10,10,10)">Normal</BaseButton>
+            <br>
+            <BaseButton @click="startGame(15,15,30)">Hard</BaseButton>
+          </div>
+        </div>
 
-        <button class="btn" @click="debugSuccess">DEBUG</button>
 
     </div>
 </template>
@@ -36,45 +48,56 @@ import MineSweeperTimer from "@/components/MineSweeperTimer";
                 bombNum: 10,
                 playing: false,
                 state: 'SETUP',
-                timer: 0
+                timer: {
+                  interval: '',
+                  duration: 0,
+                  start: 0,
+                  end: 0
+                },
+                display: {
+                  board: false,
+                  menu: true,
+                  modal: false,
+                  exit: false
+                }
             }
         },
-        // props: {
-        //   color: {
-        //     type: String,
-        //     required: false,
-        //     default: ''
-        //   }
-        // },
         methods: {
           startGame(height, width, bombNum) {
             this.height = height
             this.width = width
             this.bombNum = bombNum
             this.playing = true
-          }
-
-            // debugSuccess () {
-                // this.board.flat(2).filter(field => field.content!=='bomb').forEach(field => field.visible = true)
-            // },
-            // revealBomb (row, col) {
-            //
+            this.display.menu = false
+            this.display.board = true
+          },
+          stopGame(payload) {
+            this.playing = false;
+            this.stopTimer()
+            alert(payload.state)
+          },
+          startTimer() {
+            this.timer.start = new Date().getTime();
+            this.updateTimer(this.timer.start);
+            // Update the count every 1 second
+            this.timer.interval = setInterval(() => {
+              this.updateTimer(this.timer.start);
+            }, 1000);
+          },
+          updateTimer(start, end) {
+            if(end) {
+              this.timer.duration = end - start
+            } else {
+              const now = new Date().getTime();
+              this.timer.duration = now - start
             }
-        // },
-        // mounted () {
-            // this.generateBoard(10,10, 0)
-            // this.generateBoard(10,10, 10)
-        // },
-        // computed: {
-        //     success () {
-        //         // Check if all remaining unrevealed fields contain bombs
-        //         return this.board.flat(2).filter(field => !field.visible).every(field => field.content==='bomb')
-        //         // return false
-        //     },
-        //     modalContent () {
-        //         return this.success ? "WYGRAŁEŚ" : "PRZEGRAŁEŚ"
-        //     }
-        // }
+          },
+          stopTimer() {
+            this.timer.end = new Date().getTime();
+            this.updateTimer(this.timer.start,this.timer.end);
+            clearInterval(this.timer.interval)
+          }
+        }
     }
 </script>
 

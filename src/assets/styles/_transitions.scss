@@ -4,3 +4,15 @@
 .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
   opacity: 0;
 }
+
+.bomb-enter-active {
+  transition: transform 150ms ease;
+}
+
+.bomb-enter {
+  transform: scale(0.5)
+}
+
+.bomb-enter-to {
+  transform: scale(1)
+}
