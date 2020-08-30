@@ -1,13 +1,18 @@
 <template>
     <div class="container">
 
-        <div class="modal-overlay" v-if="display.modal">
-            <div class="modal-content">
-                {{modalContent}}
-                <div v-if="success" style="font-size: 16px;">JESTEŚ GWIAZDĄ</div>
-                <button class="btn" @click="generateBoard(10,10,10)">ZAGRAJ JESZCZE RAZ</button>
-            </div>
-        </div>
+      <BaseModal v-if="display.lostModal">
+        :(
+        <div style="font-size: 16px;">Nie tym razem!</div>
+        <BaseButton>Wróć do menu</BaseButton>
+      </BaseModal>
+
+      <BaseModal v-if="display.wonModal">
+        Yay!
+        <div style="font-size: 16px;">JESTEŚ GWIAZDĄ</div>
+        <BaseButton>Wróć do menu</BaseButton>
+      </BaseModal>
+
       <MineSweeperTimer :timer="timer.duration"/>
       <div class="content">
           <MineSweeperBoard v-show="display.board"
@@ -36,18 +41,19 @@
 import MineSweeperBoard from "@/components/MineSweeperBoard";
 import BaseButton from "@/components/generic/BaseButton";
 import MineSweeperTimer from "@/components/MineSweeperTimer";
+import BaseModal from "@/components/generic/BaseModal";
 // import BaseButton from "@/components/generic/BaseButton";
     export default {
         name: "MineSweeper",
         // components: {BaseButton, MineSweeperBoard},
-        components: {MineSweeperTimer, BaseButton, MineSweeperBoard},
+        components: {BaseModal, MineSweeperTimer, BaseButton, MineSweeperBoard},
         data () {
             return {
                 height: 10,
                 width: 10,
                 bombNum: 10,
                 playing: false,
-                state: 'SETUP',
+                // state: 'SETUP',
                 timer: {
                   interval: '',
                   duration: 0,
@@ -57,7 +63,8 @@ import MineSweeperTimer from "@/components/MineSweeperTimer";
                 display: {
                   board: false,
                   menu: true,
-                  modal: false,
+                  wonModal: false,
+                  lostModal: false,
                   exit: false
                 }
             }
@@ -71,10 +78,18 @@ import MineSweeperTimer from "@/components/MineSweeperTimer";
             this.display.menu = false
             this.display.board = true
           },
+          dropConfetti() {
+            this.$confetti.start();
+            setTimeout(()=>this.$confetti.stop(), 2500)
+          },
           stopGame(payload) {
             this.playing = false;
             this.stopTimer()
-            alert(payload.state)
+            if(payload.state === 'lost') {
+              this.dropConfetti();
+              setTimeout(()=>this.display.wonModal = true, 2500)
+
+            }
           },
           startTimer() {
             this.timer.start = new Date().getTime();
@@ -124,25 +139,5 @@ import MineSweeperTimer from "@/components/MineSweeperTimer";
             border-color: rgba(255, 255, 255, 0.03) rgba(0, 0, 0, 0.08) rgba(0, 0, 0, 0.08) rgba(255, 255, 255, 0.03);
             background: linear-gradient(135deg, #314269, #222e48);
           }
-    }
-    .modal-overlay {
-      width: 100%;
-      height: 100%;
-      position: fixed;
-      background-color: rgba(0, 0, 0, 0.4);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      margin-top: -60px;
-
-      .modal-content {
-        padding: 40px 60px;
-        background-color: #293758;
-        border-radius: 30px;
-        color: white;
-        font-size: 24px;
-        display: flex;
-        flex-flow: column nowrap;
-      }
     }
 </style>
