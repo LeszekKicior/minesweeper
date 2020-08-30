@@ -72,7 +72,7 @@ import MineSweeperOption from "@/components/MineSweeperOption";
                 options: [
                   {name: 'Easy',
                   size: 5,
-                  bombNum: 5},
+                  bombNum: 2},
                   {name: 'Medium',
                   size: 10,
                   bombNum: 15},
@@ -100,10 +100,12 @@ import MineSweeperOption from "@/components/MineSweeperOption";
           stopGame(payload) {
             this.playing = false;
             this.stopTimer()
-            if(payload.state === 'lost') {
+            if(payload.state === 'won') {
               this.dropConfetti();
+              localStorage[this.optionPlayed] = this.timer.duration
               setTimeout(()=>this.display.wonModal = true, 2500)
-
+            } else {
+              setTimeout(()=>this.display.lostModal = true, 1000)
             }
           },
           startTimer() {

@@ -19,12 +19,25 @@ export default {
   },
   computed: {
     bestTime () {
-      return localStorage[this.option.name] || '00:00'
+      if(localStorage[this.option.name]){
+        const time = this.calcTime(localStorage[this.option.name])
+        const minutes = time.minutes<10 ? `0${time.minutes}` : time.minutes
+        const seconds = time.seconds<10 ? `0${time.seconds}` : time.seconds
+        return `${minutes}:${seconds}`
+      } else {
+        return 'No record yet!'
+      }
     }
   },
   methods: {
     playOption () {
       this.$emit('play')
+    },
+    calcTime: function(time){
+      return {
+        minutes: Math.floor((time % (1000 * 60 * 60)) / (1000 * 60)),
+        seconds: Math.floor((time % (1000 * 60)) / 1000)
+      }
     }
   }
 }

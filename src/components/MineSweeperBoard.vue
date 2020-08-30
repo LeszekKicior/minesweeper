@@ -158,14 +158,9 @@ export default {
     checkFieldCorrectness(row, col) {
       return (row >= 0 && row <= this.height-1 && col >= 0 && col <= this.width-1)
     }
-    // revealBomb(row, col) {
-    //     this.revealField(row, col)
-    // }
   },
   watch: {
-    playing(newVal, oldval) {
-      console.log('PLAYING: ' + newVal)
-      console.log('WAS: ' + oldval)
+    playing(newVal) {
       if(newVal) {
         this.generateBoard()
         this.loaded = true
