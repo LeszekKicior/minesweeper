@@ -25,11 +25,12 @@
                             key="board"/>
           <div class="menu" v-show="display.menu">
             <h1>Minesweeper</h1>
-            <BaseButton @click="startGame(5, 5, 5)">Easy</BaseButton>
-            <br>
-            <BaseButton @click="startGame(10,10,10)">Normal</BaseButton>
-            <br>
-            <BaseButton @click="startGame(15,15,30)">Hard</BaseButton>
+            <MineSweeperOption
+                class="option"
+                :option="option"
+                @play="startGame(option)"
+                v-for="option in options"
+                :key="option.name"/>
           </div>
         </div>
 
@@ -42,16 +43,17 @@ import MineSweeperBoard from "@/components/MineSweeperBoard";
 import BaseButton from "@/components/generic/BaseButton";
 import MineSweeperTimer from "@/components/MineSweeperTimer";
 import BaseModal from "@/components/generic/BaseModal";
+import MineSweeperOption from "@/components/MineSweeperOption";
 // import BaseButton from "@/components/generic/BaseButton";
     export default {
         name: "MineSweeper",
         // components: {BaseButton, MineSweeperBoard},
-        components: {BaseModal, MineSweeperTimer, BaseButton, MineSweeperBoard},
+        components: {MineSweeperOption, BaseModal, MineSweeperTimer, BaseButton, MineSweeperBoard},
         data () {
             return {
-                height: 10,
-                width: 10,
-                bombNum: 10,
+                height: 0,
+                width: 0,
+                bombNum: 0,
                 playing: false,
                 // state: 'SETUP',
                 timer: {
@@ -66,14 +68,27 @@ import BaseModal from "@/components/generic/BaseModal";
                   wonModal: false,
                   lostModal: false,
                   exit: false
-                }
+                },
+                options: [
+                  {name: 'Easy',
+                  size: 5,
+                  bombNum: 5},
+                  {name: 'Medium',
+                  size: 10,
+                  bombNum: 15},
+                  {name: 'Hard',
+                  size: 15,
+                  bombNum: 30},
+                ],
+                optionPlayed: ''
             }
         },
         methods: {
-          startGame(height, width, bombNum) {
-            this.height = height
-            this.width = width
-            this.bombNum = bombNum
+          startGame(option) {
+            this.height = option.size
+            this.width = option.size
+            this.bombNum = option.bombNum
+            this.optionPlayed = option.name
             this.playing = true
             this.display.menu = false
             this.display.board = true
