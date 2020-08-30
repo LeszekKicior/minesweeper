@@ -57,6 +57,8 @@ export default {
   },
   methods: {
     generateBoard () {
+      this.timerStarted = false
+
       let board = [];
       for (let i = 0; i < this.height; i++){
         let row = [];

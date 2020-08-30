@@ -4,13 +4,13 @@
       <BaseModal v-if="display.lostModal">
         :(
         <div style="font-size: 16px;">Nie tym razem!</div>
-        <BaseButton>Wróć do menu</BaseButton>
+        <BaseButton @click="returnToMenu">Wróć do menu</BaseButton>
       </BaseModal>
 
       <BaseModal v-if="display.wonModal">
         Yay!
         <div style="font-size: 16px;">JESTEŚ GWIAZDĄ</div>
-        <BaseButton>Wróć do menu</BaseButton>
+        <BaseButton @click="returnToMenu">Wróć do menu</BaseButton>
       </BaseModal>
 
       <MineSweeperTimer :timer="timer.duration"/>
@@ -126,6 +126,26 @@ import MineSweeperOption from "@/components/MineSweeperOption";
             this.timer.end = new Date().getTime();
             this.updateTimer(this.timer.start,this.timer.end);
             clearInterval(this.timer.interval)
+          },
+          resetTimer() {
+            this.stopTimer()
+            this.timer = {
+                interval: '',
+                duration: 0,
+                start: 0,
+                end: 0
+            }
+          },
+          returnToMenu() {
+            this.resetTimer()
+            this.playing = false;
+            this.display = {
+              board: false,
+              menu: true,
+              lostModal: false,
+              wonModal: false,
+              exit: false
+            }
           }
         }
     }
