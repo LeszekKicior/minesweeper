@@ -1,6 +1,6 @@
 <template>
   <div class="timer">
-    {{timer|parseTime}}
+    {{ timer|parseTime }}
   </div>
 </template>
 
@@ -17,9 +17,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  .timer{
-    font-size: 36px;
-    margin-bottom: 30px;
-    transition: 150ms ease opacity;
-  }
+.timer {
+  font-size: 36px;
+  margin-bottom: 30px;
+  transition: 150ms ease opacity;
+}
 </style>
