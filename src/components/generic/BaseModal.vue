@@ -1,9 +1,11 @@
 <template>
+  <transition appear name="fade">
   <div class="modal-overlay">
     <div class="modal-content">
       <slot/>
     </div>
   </div>
+  </transition>
 </template>
 
 <script>
