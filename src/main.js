@@ -1,7 +1,10 @@
-import Vue from 'vue'
-import App from './App.vue'
+import Vue from 'vue';
+import App from './App.vue';
+import VueConfetti from 'vue-confetti';
 
-require('@/assets/styles/style.scss')
+Vue.use(VueConfetti);
+
+require('@/assets/styles/style.scss');
 
 Vue.config.productionTip = false
 
