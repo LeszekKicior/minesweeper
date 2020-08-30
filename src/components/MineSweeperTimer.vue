@@ -37,5 +37,6 @@ export default {
   .timer{
     font-size: 36px;
     margin-bottom: 30px;
+    transition: 150ms ease opacity;
   }
 </style>

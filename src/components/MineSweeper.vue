@@ -13,7 +13,7 @@
         <BaseButton @click="returnToMenu">Wróć do menu</BaseButton>
       </BaseModal>
 
-      <MineSweeperTimer :timer="timer.duration"/>
+      <MineSweeperTimer :timer="timer.duration" :style="{opacity: playing?1:0}"/>
       <div class="content">
           <MineSweeperBoard v-show="display.board"
                             :height="height"
