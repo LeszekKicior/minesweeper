@@ -6,13 +6,17 @@
 }
 
 .bomb-enter-active {
-  transition: transform 150ms ease;
+  animation: bounce-in 500ms;
 }
 
-.bomb-enter {
-  transform: scale(0.5)
-}
-
-.bomb-enter-to {
-  transform: scale(1)
+@keyframes bounce-in {
+  0% {
+    transform: scale(0);
+  }
+  50% {
+    transform: scale(1.5);
+  }
+  100% {
+    transform: scale(1);
+  }
 }

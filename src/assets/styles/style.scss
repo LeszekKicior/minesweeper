@@ -1,6 +1,7 @@
 @import "transitions";
 
 @import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,wght@0,400;1,300&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
 
 #app {
   font-family: 'Nunito Sans', Helvetica, Arial, sans-serif;
@@ -12,6 +13,10 @@
 }
 body{
   margin: 0;
+}
+
+.alt-font {
+  font-family: 'Pacifico', Helvetica, Arial, sans-serif;
 }
 
 .debug{

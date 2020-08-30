@@ -24,7 +24,7 @@
                             @stopGame="stopGame"
                             key="board"/>
           <div class="menu" v-show="display.menu">
-            <h1>Minesweeper</h1>
+            <h1 class="alt-font">Minesweeper</h1>
             <MineSweeperOption
                 class="option"
                 :option="option"
@@ -70,7 +70,7 @@ import MineSweeperOption from "@/components/MineSweeperOption";
                 options: [
                   {name: 'Easy',
                   size: 5,
-                  bombNum: 2},
+                  bombNum: 5},
                   {name: 'Medium',
                   size: 10,
                   bombNum: 15},
@@ -169,6 +169,10 @@ import MineSweeperOption from "@/components/MineSweeperOption";
 <style lang="scss" scoped>
     $size: 800px;
     .container{
+        h1{
+          font-size: 36px;
+          font-weight: 200;
+        }
         width: 100%;
         height: 100%;
         min-height: calc(100vh - 60px);
